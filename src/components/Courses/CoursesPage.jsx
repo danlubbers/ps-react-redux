@@ -5,8 +5,13 @@ import * as authorActions from "../../ducks/actions/authorActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import CourseList from "./CourseList.jsx";
+import { Redirect } from "react-router-dom";
 
 class CoursesPage extends Component {
+  state = {
+    redirectToAddCoursePage: false,
+  };
+
   componentDidMount() {
     // This if statement gets rid of rerenders (additional network requests) when we click back to the Courses tab.
     if (this.props.courses.length === 0) {
@@ -20,7 +25,16 @@ class CoursesPage extends Component {
   render() {
     return (
       <>
+        {this.state.redirectToAddCoursePage && <Redirect to="/course/" />}
         <h2>Courses</h2>
+        <button
+          style={{ marginBottom: 20 }}
+          className="btn btn-primary add-course"
+          onClick={() => this.setState({ redirectToAddCoursePage: true })}
+        >
+          {" "}
+          Add Course{" "}
+        </button>
         <CourseList courses={this.props.courses} />
       </>
     );
