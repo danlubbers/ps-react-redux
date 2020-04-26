@@ -1,5 +1,10 @@
 import * as types from './actionTypes';
 import * as courseApi from '../../api/courseApi';
+import {
+  beginApiCall,
+  apiCallError
+} from './apiStatusActions';
+
 
 // ACTION CREATORS
 // This is the thunk function!!!
@@ -21,15 +26,23 @@ export function updateCourseSuccess(course) {
     course
   }
 }
+export function deleteCourseOptimistic(course) {
+  return {
+    type: types.DELETE_COURSE_OPTIMISTIC,
+    course
+  }
+}
 
 
 // Thunks
 export function loadCourses() {
   return function (dispatch) {
+    dispatch(beginApiCall())
     // This is the Thunk!!!
     return courseApi.getCourses().then(courses => {
       dispatch(loadCourseSuccess(courses))
     }).catch(err => {
+      dispatch(apiCallError(err))
       throw err;
     })
   }
@@ -37,13 +50,22 @@ export function loadCourses() {
 
 export function saveCourse(course) {
   return function (dispatch) {
+    dispatch(beginApiCall())
     // This is the Thunk!!!
     return courseApi.saveCourse(course).then(saveCourse => {
       course.id ?
         dispatch(updateCourseSuccess(saveCourse)) :
         dispatch(createCourseSuccess(saveCourse))
     }).catch(err => {
+      dispatch(apiCallError(err))
       throw err;
     })
+  }
+}
+
+export function deleteCourse(course) {
+  return function (dispatch) {
+    dispatch(deleteCourseOptimistic(course));
+    return courseApi.deleteCourse(course.id)
   }
 }

@@ -5,6 +5,8 @@ import * as authorActions from "../../ducks/actions/authorActions";
 import PropTypes from "prop-types";
 import CourseForm from "./CourseForm.jsx";
 import { newCourse } from "../../../tools/mockData";
+import Spinner from "../common/Spinner.jsx";
+import { toast } from "react-toastify";
 
 const ManageCourse = ({
   courses,
@@ -17,6 +19,7 @@ const ManageCourse = ({
 }) => {
   const [course, setCourse] = useState({ ...props.course });
   const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     // This if statement gets rid of rerenders (additional network requests) when we click back to the Courses tab.
@@ -38,21 +41,44 @@ const ManageCourse = ({
     }));
   };
 
-  const handleSave = (e) => {
-    console.log({ course });
-    e.preventDefault();
-    saveCourse(course).then(() => {
-      history.push("/courses");
-    });
+  const formIsValid = () => {
+    const { title, authorId, category } = course;
+    const errors = {};
+
+    if (!title) errors.title = "Title is required!";
+    if (!authorId) errors.authorId = "Author is required!";
+    if (!category) errors.category = "Category is required!";
+
+    setErrors(errors);
+    return Object.keys(errors.length === 0);
   };
 
-  return (
+  const handleSave = (e) => {
+    console.log({ course });
+    if (!formIsValid()) return;
+    e.preventDefault();
+    setSaving(true);
+    saveCourse(course)
+      .then(() => {
+        toast.success("Course Saved!");
+        history.push("/courses");
+      })
+      .catch((err) => {
+        setSaving(false);
+        setErrors({ onSave: err.message });
+      });
+  };
+
+  return authors.length === 0 || courses.length === 0 ? (
+    <Spinner />
+  ) : (
     <CourseForm
       course={course}
       errors={errors}
       authors={authors}
       onChange={handleChange}
       onSave={handleSave}
+      saving={saving}
     />
   );
 };

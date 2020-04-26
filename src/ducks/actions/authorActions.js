@@ -1,5 +1,9 @@
 import * as types from './actionTypes';
 import * as authorApi from '../../api/authorApi';
+import {
+  beginApiCall,
+  apiCallError
+} from './apiStatusActions';
 
 export function loadAuthorsSuccess(authors) {
   return {
@@ -10,10 +14,12 @@ export function loadAuthorsSuccess(authors) {
 
 export function loadAuthors() {
   return function (dispatch) {
+    dispatch(beginApiCall())
     // This is the Thunk!!!
     return authorApi.getAuthors().then(authors => {
       dispatch(loadAuthorsSuccess(authors))
     }).catch(err => {
+      dispatch(apiCallError(err))
       throw err;
     })
   }
