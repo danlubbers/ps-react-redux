@@ -4,7 +4,7 @@ import HomePage from "./Home/HomePage.jsx";
 import AboutPage from "./About/AboutPage.jsx";
 import Header from "./common/Header.jsx";
 import CoursesPage from "./Courses/CoursesPage.jsx";
-import ManageCourse from "./Courses/ManageCourse.jsx";
+import ManageCourse from "./Courses/ManageCourse.jsx"; // eslint-disable-line import/no-named-as-default
 import PageNotFound from "./PageNotFound.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

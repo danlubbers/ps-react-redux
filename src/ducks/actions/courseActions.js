@@ -21,6 +21,7 @@ export function createCourseSuccess(course) {
   }
 }
 export function updateCourseSuccess(course) {
+  // debugger;
   return {
     type: types.UPDATE_COURSE_SUCCESS,
     course

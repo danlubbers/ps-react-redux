@@ -16,11 +16,17 @@ class CoursesPage extends Component {
 
   componentDidMount() {
     // This if statement gets rid of rerenders (additional network requests) when we click back to the Courses tab.
+
     if (this.props.courses.length === 0) {
-      this.props.actions.loadCourses().catch((err) => console.error(err));
+      this.props.actions.loadCourses().catch((error) => {
+        alert("Loading courses failed" + error);
+      });
     }
+
     if (this.props.authors.length === 0) {
-      this.props.actions.loadAuthors().catch((err) => console.error(err));
+      this.props.actions.loadAuthors().catch((error) => {
+        alert("Loading authors failed" + error);
+      });
     }
   }
 
@@ -36,7 +42,7 @@ class CoursesPage extends Component {
   render() {
     return (
       <>
-        {this.state.redirectToAddCoursePage && <Redirect to="/course/" />}
+        {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
         <h2>Courses</h2>
         {this.props.loading ? (
           <Spinner />

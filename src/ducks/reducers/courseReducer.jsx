@@ -7,9 +7,11 @@ export default function courseReducer(state = initialState.courses, action) {
       // debugger;
       return [...state, { ...action.course }];
     case types.UPDATE_COURSE_SUCCESS:
-      return state.map((course) =>
-        course.id === action.course.id ? action.course : course
-      );
+      // debugger;
+      return state.map((course) => {
+        console.log("hit!!!");
+        return course.id === action.course.id ? action.course : course;
+      });
     case types.LOAD_COURSES_SUCCESS:
       return action.courses;
     case types.DELETE_COURSE_OPTIMISTIC:

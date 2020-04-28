@@ -8,7 +8,9 @@ import { newCourse } from "../../../tools/mockData";
 import Spinner from "../common/Spinner.jsx";
 import { toast } from "react-toastify";
 
-const ManageCourse = ({
+// Exports unconnected Component
+// This export was added so we can test Redux in ManageCourse.test.jsx
+export const ManageCourse = ({
   courses,
   authors,
   loadAuthors,
@@ -54,7 +56,7 @@ const ManageCourse = ({
   };
 
   const handleSave = (e) => {
-    console.log({ course });
+    // console.log({ course });
     if (!formIsValid()) return;
     e.preventDefault();
     setSaving(true);
@@ -99,13 +101,14 @@ export function getCourseBySlug(courses, slug) {
 }
 
 function mapStateToProps(state, ownProps) {
-  // debugger;
   const slug = ownProps.match.params.slug;
+  // debugger;
+  const course =
+    slug && state.courses.length > 0
+      ? getCourseBySlug(state.courses, slug)
+      : newCourse;
   return {
-    course:
-      slug && state.courses.length > 0
-        ? getCourseBySlug(state.courses, slug)
-        : newCourse,
+    course: course,
     courses: state.courses,
     authors: state.authors,
   };
@@ -117,4 +120,5 @@ const mapDisPatchToProps = {
   loadAuthors: authorActions.loadAuthors,
 };
 
+// Exports connected Component
 export default connect(mapStateToProps, mapDisPatchToProps)(ManageCourse);
