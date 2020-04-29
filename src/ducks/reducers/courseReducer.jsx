@@ -5,10 +5,10 @@ export default function courseReducer(state = initialState.courses, action) {
   switch (action.type) {
     case types.CREATE_COURSE_SUCCESS:
       // debugger;
-      console.log("hit!!!");
       return [...state, { ...action.course }];
     case types.UPDATE_COURSE_SUCCESS:
       // debugger;
+      console.log("hit!!!");
       return state.map((course) => {
         return course.id === action.course.id ? action.course : course;
       });
