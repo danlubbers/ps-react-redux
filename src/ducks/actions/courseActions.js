@@ -6,6 +6,7 @@ import {
 } from './apiStatusActions';
 
 
+
 // ACTION CREATORS
 // This is the thunk function!!!
 export function loadCourseSuccess(courses) {
@@ -50,13 +51,14 @@ export function loadCourses() {
 }
 
 export function saveCourse(course) {
+  // debugger;
   return function (dispatch) {
     dispatch(beginApiCall())
     // This is the Thunk!!!
-    return courseApi.saveCourse(course).then(saveCourse => {
+    return courseApi.saveCourse(course).then(savedCourse => {
       course.id ?
-        dispatch(updateCourseSuccess(saveCourse)) :
-        dispatch(createCourseSuccess(saveCourse))
+        dispatch(updateCourseSuccess(savedCourse)) :
+        dispatch(createCourseSuccess(savedCourse))
     }).catch(err => {
       dispatch(apiCallError(err))
       throw err;

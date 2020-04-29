@@ -11,6 +11,7 @@ export function getCourses() {
 }
 
 export function saveCourse(course) {
+  // debugger;
   return fetch(baseUrl + (course.id || ""), {
       method: course.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
       headers: {

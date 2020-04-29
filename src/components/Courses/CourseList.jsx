@@ -14,9 +14,9 @@ const CourseList = ({ courses, onDeleteClick }) => (
       </tr>
     </thead>
     <tbody>
-      {courses.map((course) => {
+      {courses.map((course, i) => {
         return (
-          <tr key={course.id}>
+          <tr key={i}>
             <td>
               <a
                 className="btn btn-light"
